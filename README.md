@@ -76,14 +76,16 @@ ynov-projet/
 
       Make the link with the BDD via an ORM (the ORM can even create the BDD).
       Provide HTTP routes for all CRUD actions from all tables of the data model.
-      Provide (in an HTTP route or more) all the relative information, the composition of the data model (like an MCD but in JSON)
+      Provide (in an HTTP route or more) all the relative information
+      the composition of the data model (like an MCD but in JSON)
 
 - The GUI
 
       Provide pages for all CRUD actions from all tables in the
       data model (Ex: per table, one list / delete page and one page addition / modification).
       The GUI must use the same page for a CRUD action, regardless of the table.
-      The page should be built on its own based on information from composition of the model provided by the API.
+      The page should be built on its own based on information from 
+      composition of the model provided by the API.
       To do this, it will be necessary to create generic components for each type of
 
 ## Docs
