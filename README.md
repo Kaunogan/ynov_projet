@@ -62,7 +62,7 @@ ynov-projet/
 
 ## Which language used
 
-- Framework : <a href="https://electronjs.org" target="_blank">Electron</a>
+- Framework : <a href="https://electronjs.org">Electron</a>
 
    |     Languages     |         
    | ----------------- |
@@ -73,7 +73,7 @@ ynov-projet/
 
 ## Which DB used
 
-- We use <a href="https://www.prisma.io" target="_blank">Prisma</a> to simplifies database access.
+- We use <a href="https://www.prisma.io">Prisma</a> to simplifies database access.
 - We use mysql for the database.
 
 
@@ -113,6 +113,10 @@ Docker compose up   : https://docs.docker.com/compose/reference/up/
 Docker compose down : https://docs.docker.com/compose/reference/down/
 
 Node.js             : https://nodejs.org/en/
+
+Prisma              : https://www.prisma.io
+
+Mysql               : https://www.mysql.com/fr/   
 
 
 Enjoy ! 😉
