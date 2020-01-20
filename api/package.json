@@ -1,0 +1,28 @@
+{
+  "name": "adaptive-software",
+  "version": "1.0.0",
+  "description": "Server http for Rest API",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kaunogan/ynov_projet.git"
+  },
+  "keywords": [
+    "server",
+    "http",
+    "api",
+    "rest"
+  ],
+  "author": "GUMBAU Elric, LEMOINE Kaunogan",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Kaunogan/ynov_projet/issues"
+  },
+  "homepage": "https://github.com/Kaunogan/ynov_projet#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
