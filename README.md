@@ -13,6 +13,7 @@
 - [Prerequisites](#Prerequisites)
 - [What's included](#whats-included)
 - [Which language used](#Which-language-used)
+- [Which DB used](#Which-db-used)
 - [How it works](#How-it-works)
 - [Docs](#Docs)
 
@@ -61,13 +62,19 @@ ynov-projet/
 
 ## Which language used
 
-- Framework : <a href="https://electronjs.org">Electron</a>
+- Framework : <a href="https://electronjs.org" target="_blank">Electron</a>
 
    |     Languages     |         
    | ----------------- |
    |        HTML       |      
    |        CSS        | 
    |        JS         | 
+
+
+## Which DB used
+
+- We use <a href="https://www.prisma.io" target="_blank">Prisma</a> to simplifies database access.
+- We use mysql for the database.
 
 
 ## How it works
