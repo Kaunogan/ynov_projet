@@ -46,8 +46,9 @@ Here are the prerequisites necessary for this project
      
    |      Prerequisites     |         
    | ---------------------- |
-   |         Docker         |      
-   |         Node.js        |   
+   |        Docker          |      
+   |        Node.js         |   
+   |        Electron        |   
 
     > Ask google how to install these tools if you don't have them 😉
 
@@ -73,8 +74,8 @@ ynov-projet/
 
 ## Which DB used
 
-- We use <a href="https://www.prisma.io">Prisma</a> to simplifies database access.
-- We use PostgreSQL for the database.
+- We use <a href="https://sequelize.org">Sequelize</a> to simplifies database access.
+- We use MySQL for the database.
 
 
 ## How it works
@@ -114,9 +115,6 @@ Docker compose down : https://docs.docker.com/compose/reference/down/
 
 Node.js             : https://nodejs.org/en/
 
-Prisma              : https://www.prisma.io
-
-PostgreSQL          : https://www.postgresql.org
-
+Mysql               : https://www.mysql.com/fr/
 
 Enjoy ! 😉
