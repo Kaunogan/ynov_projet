@@ -6,7 +6,7 @@
   <h3 align="center">Ynov - B3 Info - GUMBAU Elric | LEMOINE Kaunogan</h3>
 </p>
 
-## B3 Devops - TP 2
+## ADAPTIVE SOFTWARE | B3 Info
 
 - [About us](#About-us)
 - [About this project](#About-this-project)
@@ -15,7 +15,6 @@
 - [Which language used](#Which-language-used)
 - [How it works](#How-it-works)
 - [Docs](#Docs)
-
 
 ## About us
 
