@@ -61,7 +61,7 @@ ynov-projet/
 
 ## Which language used
 
-- Framework : Electron
+- Framework : <a href="https://electronjs.org">Electron</a>
 
    |     Languages     |         
    | ----------------- |
@@ -79,7 +79,7 @@ ynov-projet/
       Provide HTTP routes for all CRUD actions from all tables of the data model.
 
       Provide (in an HTTP route or more) all the relative information
-      the composition of the data model (like an MCD but in JSON)
+      the composition of the data model (like an MCD but in JSON).
 
 - The GUI
 
@@ -90,8 +90,8 @@ ynov-projet/
 
       The page should be built on its own based on information from 
       composition of the model provided by the API.
-      
-      To do this, it will be necessary to create generic components for each type of
+
+      To do this, it will be necessary to create generic components for each type of.
 
 ## Docs
 
