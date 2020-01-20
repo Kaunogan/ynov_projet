@@ -74,7 +74,7 @@ ynov-projet/
 ## Which DB used
 
 - We use <a href="https://www.prisma.io">Prisma</a> to simplifies database access.
-- We use mysql for the database.
+- We use PostgreSQL for the database.
 
 
 ## How it works
@@ -116,7 +116,7 @@ Node.js             : https://nodejs.org/en/
 
 Prisma              : https://www.prisma.io
 
-Mysql               : https://www.mysql.com/fr/   
+PostgreSQL          : https://www.postgresql.org
 
 
 Enjoy ! 😉
