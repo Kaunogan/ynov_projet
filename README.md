@@ -116,7 +116,7 @@ ynov-projet/
 
 - Migrate db with cli
 
-    sequelize db:migrate
+      sequelize db:migrate
     
     > this will create our db in mysql with sequelize
 
