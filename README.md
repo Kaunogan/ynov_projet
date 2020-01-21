@@ -101,6 +101,26 @@ ynov-projet/
 
       To do this, it will be necessary to create generic components for each type of.
 
+### ORM Sequelize
+
+- Create the models with the cli
+
+    sequelize model:create --attributes "field:string type:string nom_table:
+    string" --name new_field
+
+    sequelize model:create --attributes "id_new_field:integer value:string n
+    um_entity:integer" --name value
+
+    sequelize model:create --attributes "id_connect_1:integer id_connect_2:i
+    nteger" --name connect 
+
+- Migrate db with cli
+
+    sequelize db:migrate
+    
+    > this will create our db in mysql with sequelize
+
+
 ## Docs
 
 Docker              : https://docs.docker.com/

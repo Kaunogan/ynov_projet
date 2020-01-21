@@ -23,6 +23,8 @@
   },
   "homepage": "https://github.com/Kaunogan/ynov_projet#readme",
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "mysql": "^2.17.1",
+    "sequelize": "^3.30.4"
   }
 }

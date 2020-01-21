@@ -1,0 +1,10 @@
+{
+  "development": {
+    "username": "root",
+    "password": "ynov",
+    "database": "database_development_adaptive_software",
+    "host": "127.0.0.1",
+    "dialect": "mysql",
+    "operatorsAliases": false
+  }
+}
