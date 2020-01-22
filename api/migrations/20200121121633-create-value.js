@@ -8,11 +8,11 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      id_new_field: {
+      id_field: {
         allowNull: false,
         type: Sequelize.INTEGER,
         references: {
-          model: 'new_fields',
+          model: 'fields',
           key: 'id'
         }
       },
@@ -20,10 +20,9 @@ module.exports = {
         allowNull: true,
         type: Sequelize.STRING
       },
-      num_entity: {
+      entity: {
         allowNull: false,
-        unique:true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       createdAt: {
         allowNull: false,
@@ -33,9 +32,10 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE
       }
-    });
+    })
+    .then(() => queryInterface.addIndex('values', ['entity']))
   },
   down: (queryInterface, Sequelize) => {
     return queryInterface.dropTable('values');
-  }
+  },
 };

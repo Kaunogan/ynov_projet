@@ -8,18 +8,25 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      id_connect_1: {
+      customer: {
         type: Sequelize.INTEGER,
         references: {
           model: 'values',
-          key: 'num_entity'
+          key: 'entity'
         }
       },
-      id_connect_2: {
+      product: {
         type: Sequelize.INTEGER,
         references: {
           model: 'values',
-          key: 'num_entity'
+          key: 'entity'
+        }
+      },
+      bill: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'values',
+          key: 'entity'
         }
       },
       createdAt: {

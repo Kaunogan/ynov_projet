@@ -106,9 +106,9 @@ ynov-projet/
 - Create the models with the cli
 
       sequelize model:create --attributes "field:string type:string table_name:
-      string" --name new_field
+      string" --name field
 
-      sequelize model:create --attributes "id_new_field:integer value:string n
+      sequelize model:create --attributes "id_field:integer value:string n
       um_entity:integer" --name value
 
       sequelize model:create --attributes "id_connect_1:integer id_connect_2:i

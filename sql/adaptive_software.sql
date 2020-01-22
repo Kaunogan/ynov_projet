@@ -44,10 +44,10 @@ INSERT INTO `connect` (`id`, `id_connect_1`, `id_connect_2`) VALUES
 -- --------------------------------------------------------
 
 --
--- Structure de la table `new_field`
+-- Structure de la table `field`
 --
 
-CREATE TABLE `new_field` (
+CREATE TABLE `field` (
   `id` int(11) NOT NULL,
   `field` varchar(50) NOT NULL,
   `type` varchar(50) NOT NULL,
@@ -55,10 +55,10 @@ CREATE TABLE `new_field` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Déchargement des données de la table `new_field`
+-- Déchargement des données de la table `field`
 --
 
-INSERT INTO `new_field` (`id`, `field`, `type`, `nom_table`) VALUES
+INSERT INTO `field` (`id`, `field`, `type`, `nom_table`) VALUES
 (1, 'nom', 'string', 'client'),
 (2, 'prenom', 'string', 'client'),
 (3, 'prix', 'string', 'facture');
@@ -71,16 +71,16 @@ INSERT INTO `new_field` (`id`, `field`, `type`, `nom_table`) VALUES
 
 CREATE TABLE `value` (
   `id` int(11) NOT NULL,
-  `id_new_field` int(11) NOT NULL,
+  `id_field` int(11) NOT NULL,
   `value` varchar(255) DEFAULT NULL,
-  `num_entity` int(11) DEFAULT NULL
+  `entity` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `value`
 --
 
-INSERT INTO `value` (`id`, `id_new_field`, `value`, `num_entity`) VALUES
+INSERT INTO `value` (`id`, `id_field`, `value`, `entity`) VALUES
 (1, 1, 'gumbau', 1),
 (2, 2, 'elric', 1),
 (3, 3, '30 euro', 2);
@@ -98,9 +98,9 @@ ALTER TABLE `connect`
   ADD KEY `id_connect_2_idx` (`id_connect_2`);
 
 --
--- Index pour la table `new_field`
+-- Index pour la table `field`
 --
-ALTER TABLE `new_field`
+ALTER TABLE `field`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -108,8 +108,8 @@ ALTER TABLE `new_field`
 --
 ALTER TABLE `value`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `id_new_field_idx` (`id_new_field`),
-  ADD KEY `num_entity_idx` (`num_entity`);
+  ADD KEY `id_field_idx` (`id_field`),
+  ADD KEY `entity_idx` (`entity`);
 
 --
 -- AUTO_INCREMENT pour les tables déchargées
@@ -122,9 +122,9 @@ ALTER TABLE `connect`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT pour la table `new_field`
+-- AUTO_INCREMENT pour la table `field`
 --
-ALTER TABLE `new_field`
+ALTER TABLE `field`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
@@ -141,14 +141,14 @@ ALTER TABLE `value`
 -- Contraintes pour la table `connect`
 --
 ALTER TABLE `connect`
-  ADD CONSTRAINT `id_connect_1` FOREIGN KEY (`id_connect_1`) REFERENCES `value` (`num_entity`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `id_connect_2` FOREIGN KEY (`id_connect_2`) REFERENCES `value` (`num_entity`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `id_connect_1` FOREIGN KEY (`id_connect_1`) REFERENCES `value` (`entity`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `id_connect_2` FOREIGN KEY (`id_connect_2`) REFERENCES `value` (`entity`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Contraintes pour la table `value`
 --
 ALTER TABLE `value`
-  ADD CONSTRAINT `id_new_field` FOREIGN KEY (`id_new_field`) REFERENCES `new_field` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `id_field` FOREIGN KEY (`id_field`) REFERENCES `field` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
