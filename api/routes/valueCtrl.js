@@ -1,49 +1,178 @@
+/*
+ * Title : valueCtrl.js
+ *
+ * Author : GUMBAU Elric, LEMOINE Kaunogan
+ * 
+ * Date : 23/01/2020
+ */
+
 // Imports
 var models = require('../models');
+
+// Constant
+const NB_REGEX = /^\d+$/;
+
+// Variable
+var array_id_table_name                    = [];
+var array_field                            = [];
+var array_json_customer_entity             = [];
+var array_json_customer_entity_unique      = [];
+var array_json_customer                    = {};
+var json_customer                          = {};
+var id_table_name                          = 0;
 
 // Routes
 module.exports = {
 
-    // Function to insert the field
+    // Function to insert the value with sequelize
     insert: function (req, res) {
 
-        //Params
+        /****** PARAMS ******/
+
         var id_field = req.body.id_field;
         var value = req.body.value;
         var entity = req.body.entity;
+
+        /****** CHECK ******/
 
         // Check if params are valid
         if (id_field == null || value == null || entity == null) {
             return res.status(400).json({ 'error': 'missing parameters' });
         }
+        else if (id_field == "" || value == "" || entity == "") {
+            return res.status(400).json({ 'error': 'parameters empty' });
+        }
+        else if (!NB_REGEX.test(id_field)) { // Check if id_field is only a number with REGEX
+            return res.status(400).json({ 'error': `parameter id_field : ${id_field} need to be a number` });
+        }
+        else if (!NB_REGEX.test(entity)) { // Check if entity is only a number with REGEX
+            return res.status(400).json({ 'error': `parameter entity : ${entity} need to be a number` });
+        }
+
+        /****** SEQUELIZE ******/
 
         // Check if field already exist if not insert the data
         models.value.findOne({
             attributes: ['value', 'entity'],
-            where: { 
+            where: {
                 value: value,
                 entity: entity,
             }
         })
-        .then(function (valueFound) {
-            if (!valueFound) {
-                var newValue = models.value.create({
-                    id_field: id_field,
-                    value: value,
-                    entity: entity
+            .then(function (valueFound) {
+                if (!valueFound) { // value was not found inert the data
+                    var newValue = models.value.create({
+                        id_field: id_field,
+                        value: value,
+                        entity: entity
+                    })
+                        .then(function (newValue) {
+                            return res.status(201).json({ 'success': `newValue : ${newValue.id}` })
+                        })
+                        .catch(function (err) {
+                            return res.status(500).json({ 'error': 'cannot add newValue' })
+                        })
+                } else {
+                    return res.status(409).json({ 'error': 'value already exist' })
+                }
+            })
+            .catch(function (err) {
+                return res.status(500).json({ 'error': 'unable to verify value' })
+            });
+    },
+
+    getCustomerProfile: function (req, res) {
+
+        // Fetch the table 'field' to retrieve the id associated with the table_name 'customer'
+        models.field.findAll({
+            attributes: ['id','field'],
+            where: {
+                table_name: 'client'
+            }
+        })
+        .then(function (tableNameFound) {
+            if (tableNameFound) {
+
+                // Insert in array all id associated with the table_name 'customer'
+                for (var i = 0; i < tableNameFound.length; i++) {
+                    array_id_table_name.push(tableNameFound[i].id);
+                    array_field.push(tableNameFound[i].field);
+                }
+
+                // Get the all the customers in table 'value'
+                models.value.findAll({
+                    attributes: ['id_field','value','entity'],
+                    where: {
+                        id_field: array_id_table_name
+                    },
                 })
-                .then(function (newValue) {
-                    return res.status(201).json({ 'new_value_id': newValue.id })
+                .then(function (customer) {
+                    if(customer){
+                        
+                        for (let i = 0; i < customer.length; i++) {
+                            // Get all the entity
+                            array_json_customer_entity.push(customer[i].entity);
+                        }
+
+                        console.log(array_id_table_name);
+
+                        // Remove the duplicate entity
+                        array_json_customer_entity_unique = remove_duplicate_data(array_json_customer_entity);
+                     
+                        // Group customer together in a json
+                        for (let i = 0; i < array_json_customer_entity_unique.length; i++) {
+                           for (let j = 0; j < customer.length; j++) {
+                               if(customer[j].entity == array_json_customer_entity_unique[i]){
+
+                                    // Get the index of id_table_name in array 'array_id_table_name' 
+                                    id_table_name =  array_id_table_name.indexOf(parseInt(customer[j].id_field));
+
+
+                                    // Create the json of each customer
+                                    json_customer[`${array_field[id_table_name]}`] = customer[j].value;
+                            }
+                        }
+
+                        // Create the array of json customers
+                        array_json_customer[`customer_${i}`] = json_customer;
+                        
+                        // Clear the json_customer
+                        json_customer = {};
+                    }
+                        res.status(201).json(array_json_customer); // Send the json of all customer
+                        
+                        // Clear array_field
+                        array_field = [];
+                        array_id_table_name = [];
+                    }
+                    else {
+                        res.status(201).json({'error': 'customer not found'});
+                    }
                 })
                 .catch(function (err) {
-                    return res.status(500).json({ 'error': 'cannot add newValue' })
+                    res.status(500).json({'error': 'cannot fetch value'});
                 })
-            } else {
-                return res.status(409).json({ 'error': 'value already exist' })
+            }
+            else {
+                res.status(201).json({ 'error': 'tableName not found' });
             }
         })
         .catch(function (err) {
-            return res.status(500).json({ 'error': 'unable to verify value' })
-        });
+            res.status(500).json({ 'error': 'cannot fetch field' });
+        })
     }
+}
+
+
+// Function to remove the duplicate data in array
+function remove_duplicate_data(array){
+    var uniqueArray = [];
+    
+    // Loop through array values
+    for(i=0; i < array.length; i++){
+        if(uniqueArray.indexOf(array[i]) === -1) {
+            uniqueArray.push(array[i]);
+        }
+    }
+    return uniqueArray;
 }
