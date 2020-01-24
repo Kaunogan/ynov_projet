@@ -19,13 +19,15 @@ exports.router = (function() {
 
     // fieldCtrl routes
     apiRouter.route('/field/insert/').post(fieldCtrl.insert);
+    apiRouter.route('/field/get/').get(fieldCtrl.get);
 
     // valueCtrl routes
     apiRouter.route('/value/insert/').post(valueCtrl.insert);
-    apiRouter.route('/value/getcustomersprofile/').get(valueCtrl.getCustomerProfile);
+    apiRouter.route('/value/get/').get(valueCtrl.get);
 
     // connectCtrl
     apiRouter.route('/connect/insert/').post(connectCtrl.insert);
+    apiRouter.route('/connect/get/').get(connectCtrl.get);
 
     return apiRouter;
 })();

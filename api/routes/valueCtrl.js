@@ -11,15 +11,16 @@ var models = require('../models');
 
 // Constant
 const NB_REGEX = /^\d+$/;
+const LETTER_REGEX = /^[a-zA-Z]+$/;
 
 // Variable
-var array_id_table_name                    = [];
-var array_field                            = [];
-var array_json_customer_entity             = [];
-var array_json_customer_entity_unique      = [];
-var array_json_customer                    = {};
-var json_customer                          = {};
-var id_table_name                          = 0;
+var array_id_table_name           = [];
+var array_field                   = [];
+var array_json_entity             = [];
+var array_json_entity_unique      = [];
+var array_json                    = {};
+var json                          = {};
+var id_table_name                 = 0;
 
 // Routes
 module.exports = {
@@ -81,13 +82,32 @@ module.exports = {
             });
     },
 
-    getCustomerProfile: function (req, res) {
+    // Function to get the values with sequelize
+    get: function (req, res) {
+       
+        /****** PARAMS ******/
+
+        var value = req.body.value;
+
+        /****** CHECK ******/
+
+        if(value == null){
+            return res.status(400).json({ 'error': 'missing parameters' });
+        }
+        else if (value == ""){
+            return res.status(400).json({ 'error': 'value is empty' });
+        }
+        else if(!LETTER_REGEX.test(value)){
+            return res.status(400).json({ 'error': `parameter value : ${value} need to have only letter` });
+        }
+
+        /****** SEQUELIZE ******/
 
         // Fetch the table 'field' to retrieve the id associated with the table_name 'customer'
         models.field.findAll({
             attributes: ['id','field'],
             where: {
-                table_name: 'client'
+                table_name: `${value}`
             }
         })
         .then(function (tableNameFound) {
@@ -111,39 +131,41 @@ module.exports = {
                         
                         for (let i = 0; i < customer.length; i++) {
                             // Get all the entity
-                            array_json_customer_entity.push(customer[i].entity);
+                            array_json_entity.push(customer[i].entity);
                         }
 
-                        console.log(array_id_table_name);
-
                         // Remove the duplicate entity
-                        array_json_customer_entity_unique = remove_duplicate_data(array_json_customer_entity);
+                        array_json_entity_unique = remove_duplicate_data(array_json_entity);
                      
                         // Group customer together in a json
-                        for (let i = 0; i < array_json_customer_entity_unique.length; i++) {
+                        for (let i = 0; i < array_json_entity_unique.length; i++) {
                            for (let j = 0; j < customer.length; j++) {
-                               if(customer[j].entity == array_json_customer_entity_unique[i]){
+                               if(customer[j].entity == array_json_entity_unique[i]){
 
                                     // Get the index of id_table_name in array 'array_id_table_name' 
                                     id_table_name =  array_id_table_name.indexOf(parseInt(customer[j].id_field));
 
-
                                     // Create the json of each customer
-                                    json_customer[`${array_field[id_table_name]}`] = customer[j].value;
+                                    json[`${array_field[id_table_name]}`] = customer[j].value;
                             }
                         }
 
                         // Create the array of json customers
-                        array_json_customer[`customer_${i}`] = json_customer;
+                        array_json[`${value}_${i}`] = json;
                         
-                        // Clear the json_customer
-                        json_customer = {};
+                        // Clear the json
+                        json = {};
                     }
-                        res.status(201).json(array_json_customer); // Send the json of all customer
+                        res.status(201).json(array_json); // Send the json of all customer
                         
-                        // Clear array_field
-                        array_field = [];
-                        array_id_table_name = [];
+                        // Clear all array
+                         array_id_table_name       = [];
+                         array_field               = [];
+                         array_json_entity         = [];
+                         array_json_entity_unique  = [];
+                         array_json                = {};
+                         json                      = {};
+                         id_table_name             = 0;
                     }
                     else {
                         res.status(201).json({'error': 'customer not found'});
@@ -160,9 +182,8 @@ module.exports = {
         .catch(function (err) {
             res.status(500).json({ 'error': 'cannot fetch field' });
         })
-    }
+    },
 }
-
 
 // Function to remove the duplicate data in array
 function remove_duplicate_data(array){
