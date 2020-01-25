@@ -10,24 +10,15 @@ module.exports = {
       },
       customer: {
         type: Sequelize.INTEGER,
-        references: {
-          model: 'values',
-          key: 'entity'
-        }
+        allowNull: false,
       },
       product: {
+        allowNull: false,
         type: Sequelize.INTEGER,
-        references: {
-          model: 'values',
-          key: 'entity'
-        }
       },
       bill: {
+        allowNull: false,
         type: Sequelize.INTEGER,
-        references: {
-          model: 'values',
-          key: 'entity'
-        }
       },
       createdAt: {
         allowNull: false,

@@ -7,7 +7,6 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   value.associate = function(models) {
     // associations can be defined here
-    models.value.hasMany(models.field);
   };
   return value;
 };

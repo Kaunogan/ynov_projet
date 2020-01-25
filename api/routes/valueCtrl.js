@@ -183,6 +183,85 @@ module.exports = {
             res.status(500).json({ 'error': 'cannot fetch field' });
         })
     },
+
+    // Function to delete the values in 'values' with sequelize
+    delete: function (req,res) {
+
+        /****** PARAMS ******/
+        var id = req.body.id;
+  
+        /****** CHECK ******/
+  
+        if(id == null){
+            return res.status(400).json({ 'error': 'missing parameters' });
+        }
+        else if (id == ""){
+            return res.status(400).json({ 'error': 'id is empty' });
+        }
+        else if(!NB_REGEX.test(id)){
+            return res.status(400).json({ 'error': `parameter id : ${id} need to have only number` });
+        }
+  
+        /***** SEQUELIZE ******/
+  
+        models.value.destroy({
+            where:{
+                id: id
+            }
+        })
+        .then(function (id) {
+            if(id){
+              res.status(200).json({ "success": "id deleted" });
+            }
+            else {
+              res.status(500).json({ "error": "invalid id" });
+            }
+        })
+        .catch(function (err) {
+          res.status(500).json({ "error": "invalid id" });
+         });
+    },
+
+    // Function to update data in values with sequelize
+    update: function (req,res) {
+    
+        /****** PARAMS ******/
+  
+        var id = req.body.id;
+        var field = req.body.field;
+        var value = req.body.value;
+  
+        /****** CHECK ******/
+  
+        if(id == null || field == null || value == null){
+            return res.status(400).json({ 'error': 'missing parameters' });
+        }
+        else if (id == "" || field == "" || value == ""){
+            return res.status(400).json({ 'error': 'parameters empty' });
+        }
+        else if(!NB_REGEX.test(id)){
+            return res.status(400).json({ 'error': `parameter id : ${id} need to have only number` });
+        }
+  
+        /***** SEQUELIZE ******/
+  
+        // Update value in fields
+        models.value.update(
+            {[field]: value},
+            {where: {id: id},
+        })
+        .then(function (updateField) {
+            if(updateField){
+                res.status(200).json({ "Success": "field updated" });
+            }
+            else{
+                res.status(404).json({ "error": "no field found" });
+            }
+        })
+        .catch(function (err) {
+          res.status(500).json({ "error": "invalid id" });
+         }); 
+    }
 }
 
 // Function to remove the duplicate data in array

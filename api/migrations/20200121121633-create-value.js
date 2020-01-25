@@ -11,10 +11,6 @@ module.exports = {
       id_field: {
         allowNull: false,
         type: Sequelize.INTEGER,
-        references: {
-          model: 'fields',
-          key: 'id'
-        }
       },
       value: {
         allowNull: true,
