@@ -3,7 +3,7 @@
  *
  * Author : GUMBAU Elric, LEMOINE Kaunogan
  * 
- * Date : 23/01/2020
+ * Date : 25/01/2020
  */
 
 // Imports
@@ -15,6 +15,7 @@ const LETTER_REGEX = /^[a-zA-Z]+$/;
 
 // Variables
 var json = {};
+var array_json = {};
 
 // Routes
 module.exports = {
@@ -87,7 +88,7 @@ module.exports = {
 
         /****** SEQUELIZE ******/
         models.field.findAll({
-            attributes: ['field'],
+            attributes: ['id','field','type','table_name'],
             where:{
                 table_name: `${field}`
             }
@@ -96,12 +97,19 @@ module.exports = {
             if (fieldFound) {
 
                  // Clear array
-                 json = {};
+                 json       = {};
+                 array_json = {};
 
                 for (let i = 0; i < fieldFound.length; i++) {
-                    json[`field_${field}_${i}`] = fieldFound[i].field;
+                    json[`id`] = fieldFound[i].id;
+                    json[`field`] = fieldFound[i].field;
+                    json[`type`] = fieldFound[i].type;
+                    json[`table_name`] = fieldFound[i].table_name;
+                    array_json[`field_${i}`] = json;
+                    json = {};
+
                 }
-                return res.status(201).json(json);
+                return res.status(200).json(array_json);
             }
             else {
                 return res.status(409).json({'error': 'field not found'});

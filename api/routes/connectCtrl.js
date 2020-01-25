@@ -3,7 +3,7 @@
  *
  * Author : GUMBAU Elric, LEMOINE Kaunogan
  * 
- * Date : 23/01/2020
+ * Date : 25/01/2020
  */
 
 // Imports
@@ -27,7 +27,7 @@ const  NB_REGEX = /^\d+$/;
 // Routes
 module.exports = {
 
-    // Function to insert the field with sequelize
+    // Function to insert the data in 'connects' with sequelize
     insert: function (req,res) {
         
         /****** PARAMS ******/
@@ -118,7 +118,7 @@ module.exports = {
         // Request in table 'connects'
 
         models.connect.findAll({
-           attributes: ['customer','product','bill']
+           attributes: ['id','customer','product','bill']
         })
         .then(function (connectFound) {
             
@@ -140,7 +140,8 @@ module.exports = {
                     // Associate customer product bill
 
                     for (let i = 0; i < array_entity_customer.length; i++) { 
-                       
+                        array_json_connected_entity[`id`] = connectFound[i].id;
+
                         for (let j = 0; j < valueFound.length; j++) {
                             if(array_entity_customer[i] == valueFound[j].entity){
 
@@ -148,6 +149,7 @@ module.exports = {
                                 id_table_name =  array_id_table_name.indexOf(parseInt(valueFound[j].id_field));
 
                                 // Insert the value in 'json_connected_entity'
+                                json_connected_entity[`entity`] = valueFound[j].entity;
                                 json_connected_entity[`${array_field[id_table_name]}`] = valueFound[j].value;
                             }
                         }
@@ -162,6 +164,7 @@ module.exports = {
                                 id_table_name =  array_id_table_name.indexOf(parseInt(valueFound[l].id_field));
                                 
                                 // Insert the value in 'json_connected_entity'
+                                json_connected_entity[`entity`] = valueFound[l].entity;
                                 json_connected_entity[`${array_field[id_table_name]}`] = valueFound[l].value;
                             }
                         }
@@ -176,18 +179,20 @@ module.exports = {
                                 id_table_name =  array_id_table_name.indexOf(parseInt(valueFound[n].id_field));
 
                                 // Insert the value in 'json_connected_entity'
+                                json_connected_entity[`entity`] = valueFound[n].entity;
                                 json_connected_entity[`${array_field[id_table_name]}`] = valueFound[n].value;
                             }
                         }
 
                         array_json_connected_entity[`bill`] = json_connected_entity
                         json_connected_entity = {}
-                        
+
                         array_json[`connect_${i}`]  = array_json_connected_entity
+
                         array_json_connected_entity = {}
                     }
 
-                    res.status(201).json(array_json);
+                    res.status(200).json(array_json);
 
                     //Clear array
 

@@ -3,7 +3,7 @@
  *
  * Author : GUMBAU Elric, LEMOINE Kaunogan
  * 
- * Date : 23/01/2020
+ * Date : 25/01/2020
  */
 
 // Imports
@@ -60,26 +60,26 @@ module.exports = {
                 entity: entity,
             }
         })
-            .then(function (valueFound) {
-                if (!valueFound) { // value was not found inert the data
-                    var newValue = models.value.create({
-                        id_field: id_field,
-                        value: value,
-                        entity: entity
+        .then(function (valueFound) {
+            if (!valueFound) { // value was not found inert the data
+                var newValue = models.value.create({
+                    id_field: id_field,
+                    value: value,
+                    entity: entity
+                })
+                    .then(function (newValue) {
+                        return res.status(201).json({ 'success': `newValue : ${newValue.id}` })
                     })
-                        .then(function (newValue) {
-                            return res.status(201).json({ 'success': `newValue : ${newValue.id}` })
-                        })
-                        .catch(function (err) {
-                            return res.status(500).json({ 'error': 'cannot add newValue' })
-                        })
-                } else {
-                    return res.status(409).json({ 'error': 'value already exist' })
-                }
-            })
-            .catch(function (err) {
-                return res.status(500).json({ 'error': 'unable to verify value' })
-            });
+                    .catch(function (err) {
+                        return res.status(500).json({ 'error': 'cannot add newValue' })
+                    })
+            } else {
+                return res.status(409).json({ 'error': 'value already exist' })
+            }
+        })
+        .catch(function (err) {
+            return res.status(500).json({ 'error': 'unable to verify value' })
+        });
     },
 
     // Function to get the values with sequelize
@@ -121,7 +121,7 @@ module.exports = {
 
                 // Get the all the customers in table 'value'
                 models.value.findAll({
-                    attributes: ['id_field','value','entity'],
+                    attributes: ['id','id_field','value','entity','createdAt'],
                     where: {
                         id_field: array_id_table_name
                     },
@@ -146,17 +146,20 @@ module.exports = {
                                     id_table_name =  array_id_table_name.indexOf(parseInt(customer[j].id_field));
 
                                     // Create the json of each customer
+                                    json[`entity`] = customer[j].entity;
+                                    json[`id_field_${array_field[id_table_name]}`] = customer[j].id_field;
+                                    json[`id_${array_field[id_table_name]}`] = customer[j].id;
                                     json[`${array_field[id_table_name]}`] = customer[j].value;
                             }
-                        }
+                            }
 
-                        // Create the array of json customers
-                        array_json[`${value}_${i}`] = json;
-                        
-                        // Clear the json
-                        json = {};
-                    }
-                        res.status(201).json(array_json); // Send the json of all customer
+                            // Create the array of json customers
+                            array_json[`${value}_${i}`] = json;
+                            
+                            // Clear the json
+                            json = {};
+                        }
+                        res.status(200).json(array_json); // Send the json of all customer
                         
                         // Clear all array
                          array_id_table_name       = [];
