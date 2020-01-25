@@ -4,7 +4,7 @@
   "description": "Server http for Rest API",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "sequelize db:create && sequelize db:migrate && node server.js"
   },
   "repository": {
     "type": "git",
